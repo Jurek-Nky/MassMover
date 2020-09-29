@@ -1,0 +1,177 @@
+#!/usr/bin/python3.8
+import argparse
+import os
+import shutil
+
+parser = argparse.ArgumentParser(prog="MassMover",
+                                 description="Copies all Files from all subdirectories into the destination directory.")
+parser.add_argument("-p", "--pictures", action="store_true", help="will copy pictures")
+parser.add_argument("-v", "--videos", action="store_true", help="will copy videos")
+parser.add_argument("-A", "--audio", action="store_true", help="will copy audio files")
+parser.add_argument("-a", "--all", action="store_true", help="copies every file")
+parser.add_argument("-l", "--list", action="store_true", help="list files to copy")
+parser.add_argument("-q", "--quiet", action="store_true", help="no terminal output")
+parser.add_argument("-m", "--move", action="store_true", help="moves all files default is just copy")
+parser.add_argument("-r", "--recursive", action="store_true", help="copies recursive from all subtrees")
+parser.add_argument("-H","--hidden",action="store_true",help="also shows and copies hidden files")
+parser.add_argument("start_dir", type=str, metavar="start", help="directory from where to start")
+parser.add_argument("destination", type=str, metavar="dest", help="destination directory")
+parser.format_help()
+args = parser.parse_args()
+
+
+def copy_ALL(start_dir, destination, pictures, vid, audio, all_b, list_b, quiet, move,hidden):
+    working_dir = os.getcwd()
+    all_bool = False
+    pictures_bool = False
+    audio_bool = False
+    vid_bool = False
+    list_bool = False
+    quiet_bool = False
+    move_bool = False
+    hidden_bool = False
+    if start_dir:
+        working_dir = start_dir
+    if pictures:
+        pictures_bool = True
+    if vid:
+        vid_bool = True
+    if audio:
+        audio_bool = True
+    if all_b:
+        all_bool = True
+    if list_b:
+        list_bool = True
+    if quiet:
+        quiet_bool = True
+    if move:
+        move_bool = True
+    if hidden:
+        hidden_bool = True
+    if not os.path.isdir(working_dir):
+        os.mkdir(working_dir)
+
+    for file in os.listdir(working_dir):
+        if os.path.isfile(os.path.join(working_dir, file)):
+            if not file.startswith(".") or (file.startswith(".") and hidden_bool):
+                if not list_bool:
+                    if not move_bool:  # copyFiles
+                        if all_bool:
+                            if not quiet_bool: print(file + " copied")
+                            shutil.copy2(working_dir + "/" + file, destination)
+                            if not quiet_bool: print(file + " copied")
+                        elif pictures_bool and (file.endswith(".png") or file.endswith(".jpg") or file.endswith(".gif") or file.endswith(".ai") or file.endswith(".bmp") or file.endswith(".ico") or file.endswith(".jpeg") or file.endswith(".svg") or file.endswith(".tif") or file.endswith(".tiff")):
+                            shutil.copy2(working_dir + "/" + file, destination)
+                            if not quiet_bool: print(file + " copied")
+                        elif audio_bool and (file.endswith(".mp3") or file.endswith(".wav") or file.endswith(".aif") or file.endswith(".cda") or file.endswith(".mid") or file.endswith(".mpa") or file.endswith(".wma")):
+                            shutil.copy2(working_dir + "/" + file, destination)
+                            if not quiet_bool: print(file + " copied")
+                        elif vid_bool and (file.endswith(".mp4") or file.endswith(".avi") or file.endswith(".flv") or file.endswith(".h264") or file.endswith(".m4v") or file.endswith(".mov") or file.endswith(".mpeg") or file.endswith(".swf") or file.endswith(".wmv")):
+                            shutil.copy2(working_dir + "/" + file, destination)
+                            if not quiet_bool: print(file + " copied")
+
+                    elif move_bool:  # move files
+                        if all_bool:
+                            shutil.move(working_dir + "/" + file, destination)
+                            if not quiet_bool: print(file + " moved")
+                        elif pictures_bool and (file.endswith(".png") or file.endswith(".jpg") or file.endswith(".gif") or file.endswith(".ai") or file.endswith(".bmp") or file.endswith(".ico") or file.endswith(".jpeg") or file.endswith(".svg") or file.endswith(".tif") or file.endswith(".tiff")):
+                            shutil.move(working_dir + "/" + file, destination)
+                            if not quiet_bool: print(file + " moved")
+                        elif audio_bool and (file.endswith(".mp3") or file.endswith(".wav") or file.endswith(".aif") or file.endswith(".cda") or file.endswith(".mid") or file.endswith(".mpa") or file.endswith(".wma")):
+                            shutil.move(working_dir + "/" + file, destination)
+                            if not quiet_bool: print(file + " moved")
+                        elif vid_bool and (file.endswith(".mp4") or file.endswith(".avi") or file.endswith(".flv") or file.endswith(".h264") or file.endswith(".m4v") or file.endswith(".mov") or file.endswith(".mpeg") or file.endswith(".swf") or file.endswith(".wmv")):
+                            shutil.move(working_dir + "/" + file, destination)
+                            if not quiet_bool: print(file + " moved")
+
+                elif list_bool:  # listfiles
+                    if all_bool:
+                        print(working_dir + file)
+                    if pictures_bool and (file.endswith(".png") or file.endswith(".jpg") or file.endswith(".gif") or file.endswith(".ai") or file.endswith(".bmp") or file.endswith(".ico") or file.endswith(".jpeg") or file.endswith(".svg") or file.endswith(".tif") or file.endswith(".tiff")):
+                        print(working_dir + file)
+                    if audio_bool and (file.endswith(".mp3") or file.endswith(".wav") or file.endswith(".aif") or file.endswith(".cda") or file.endswith(".mid") or file.endswith(".mpa") or file.endswith(".wma")):
+                        print(working_dir + file)
+                    if vid_bool and (file.endswith(".mp4") or file.endswith(".avi") or file.endswith(".flv") or file.endswith(".h264") or file.endswith(".m4v") or file.endswith(".mov") or file.endswith(".mpeg") or file.endswith(".swf") or file.endswith(".wmv")):
+                        print(working_dir + file)
+
+
+
+def copy_All_Rec(start_dir, destination, pictures, vid, audio, all_b, list_b, quiet, move,hidden):
+    working_dir = os.getcwd()
+    all_bool = False
+    pictures_bool = False
+    audio_bool = False
+    vid_bool = False
+    list_bool = False
+    quiet_bool = False
+    move_bool = False
+    hidden_bool = False
+    if start_dir:
+        working_dir = start_dir
+    if pictures:
+        pictures_bool = True
+    if vid:
+        vid_bool = True
+    if audio:
+        audio_bool = True
+    if all_b:
+        all_bool = True
+    if list_b:
+        list_bool = True
+    if quiet:
+        quiet_bool = True
+    if move:
+        move_bool = True
+    if hidden:
+        hidden_bool = True
+    if not os.path.isdir(working_dir):
+        os.mkdir(working_dir)
+    for roots, dirs, files in os.walk(working_dir):
+        for file in files:
+            if not file.startswith(".") or (file.startswith(".") and hidden_bool):
+                if not list_bool:
+                    if not move_bool:  # copyFiles
+                        if all_bool:
+                            shutil.copy2(roots + "/" + file, destination)
+                            if not quiet_bool: print(file + " copied")
+                            shutil.copy2(roots + "/" + file, destination)
+                            if not quiet_bool: print(file + " copied")
+                        elif audio_bool and (file.endswith(".mp3") or file.endswith(".wav") or file.endswith(".aif") or file.endswith(".cda") or file.endswith(".mid") or file.endswith(".mpa") or file.endswith(".wma")):
+                            shutil.copy2(roots + "/" + file, destination)
+                            if not quiet_bool: print(file + " copied")
+                        elif vid_bool and (file.endswith(".mp4") or file.endswith(".avi") or file.endswith(".flv") or file.endswith(".h264") or file.endswith(".m4v") or file.endswith(".mov") or file.endswith(".mpeg") or file.endswith(".swf") or file.endswith(".wmv")):
+                            shutil.copy2(roots + "/" + file, destination)
+                            if not quiet_bool: print(file + " copied")
+
+                    elif move_bool:  # move files
+                        if all_bool:
+                            shutil.move(roots + "/" + file, destination)
+                            if not quiet_bool: print(file + " moved")
+                        elif pictures_bool and (file.endswith(".png") or file.endswith(".jpg") or file.endswith(".gif") or file.endswith(".ai") or file.endswith(".bmp") or file.endswith(".ico") or file.endswith(".jpeg") or file.endswith(".svg") or file.endswith(".tif") or file.endswith(".tiff")):
+                            shutil.move(roots + "/" + file, destination)
+                            if not quiet_bool: print(file + " moved")
+                        elif audio_bool and (file.endswith(".mp3") or file.endswith(".wav") or file.endswith(".aif") or file.endswith(".cda") or file.endswith(".mid") or file.endswith(".mpa") or file.endswith(".wma")):
+                            shutil.move(roots + "/" + file, destination)
+                            if not quiet_bool: print(file + " moved")
+                        elif vid_bool and (file.endswith(".mp4") or file.endswith(".avi") or file.endswith(".flv") or file.endswith(".h264") or file.endswith(".m4v") or file.endswith(".mov") or file.endswith(".mpeg") or file.endswith(".swf") or file.endswith(".wmv")):
+                            shutil.move(roots + "/" + file, destination)
+                            if not quiet_bool: print(file + " moved")
+
+                elif list_bool:  # listFiles
+                    if all_bool:
+                        print(roots + "/" + file)
+                    elif pictures_bool and (file.endswith(".png") or file.endswith(".jpg") or file.endswith(".gif") or file.endswith(".ai") or file.endswith(".bmp") or file.endswith(".ico") or file.endswith(".jpeg") or file.endswith(".svg") or file.endswith(".tif") or file.endswith(".tiff")):
+                        print(roots + "/" + file)
+                    elif audio_bool and (file.endswith(".mp3") or file.endswith(".wav") or file.endswith(".aif") or file.endswith(".cda") or file.endswith(".mid") or file.endswith(".mpa") or file.endswith(".wma")):
+                        print(roots + "/" + file)
+                    elif vid_bool and (file.endswith(".mp4") or file.endswith(".avi") or file.endswith(".flv") or file.endswith(".h264") or file.endswith(".m4v") or file.endswith(".mov") or file.endswith(".mpeg") or file.endswith(".swf") or file.endswith(".wmv")):
+                        print(roots + "/" + file)
+
+
+if __name__ == '__main__':
+    if args.recursive:
+        copy_All_Rec(args.start_dir, args.destination, args.pictures, args.videos, args.audio, args.all,
+                     args.list, args.quiet, args.move,args.hidden)
+    else:
+        copy_ALL(args.start_dir, args.destination, args.pictures, args.videos, args.audio, args.all,
+                 args.list, args.quiet, args.move,args.hidden)
