@@ -27,16 +27,18 @@ __________________________________________________________________
 
 Examples:
 
-$ MassMover -a <Starting_Directory> <Destination_Directory>
+$ MassMover -a -r <Starting_Directory> <Destination_Directory>
 Copies every file from all subtrees to the destination.
 
-$ MassMover -a -m <Starting_Directory> <Destination_Directory>
+$ MassMover -a -m -r <Starting_Directory> <Destination_Directory>
 Moves every file from all subtrees to the destination.
 
-$ MassMover -p -m <Starting_Directory> <Destination_Directory>
+$ MassMover -p -m -r <Starting_Directory> <Destination_Directory>
 Moves every picture file from all subtrees to the destination.
 
-$ MassMover -l -a <Starting_Directory> <Destination_Directory>
+$ MassMover -l -a -r <Starting_Directory> <Destination_Directory>
 Lists all availiable files from all subtrees.
 
 
+$ MassMover -v -m <Starting_Directory> <Destination_Directory>
+Moves all Videos from start Directory into the Destination.
