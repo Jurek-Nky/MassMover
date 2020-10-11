@@ -1,8 +1,26 @@
 # MassMover
+
 Simple Python script for moving large amounts of files
 
 uses Python3
-__________________________________________________________________________________
+
+---
+
+- [x] recursive
+
+- [ ] advanced filters
+
+---
+
+## Requirements
+
+Python 3.x.x
+
+
+
+---
+
+## Usage:
 
 usage: MassMover [-h] [-p] [-v] [-A] [-a] [-l] [-q] [-m] [-r] [-H] start dest
 
@@ -23,9 +41,10 @@ optional arguments:
   -m, --move       moves all files default is just copy
   -r, --recursive  copies recursive from all subtrees
   -H, --hidden     also shows and copies hidden files
-__________________________________________________________________
 
-Examples:
+---
+
+## Examples:
 
 $ MassMover -a <Starting_Directory> <Destination_Directory>
 Copies every file from all subtrees to the destination.
@@ -39,4 +58,4 @@ Moves every picture file from all subtrees to the destination.
 $ MassMover -l -a <Starting_Directory> <Destination_Directory>
 Lists all availiable files from all subtrees.
 
-
+---
